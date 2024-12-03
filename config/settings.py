@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os.path
 from pathlib import Path
-
+from dotenv import load_dotenv
+load_dotenv()
 from django.conf.global_settings import MEDIA_ROOT, MEDIA_URL
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -39,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'messaging',
 ]
 
 MIDDLEWARE = [
@@ -129,5 +132,5 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_ROOT = '/media/'
 MEDIA_URL = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'

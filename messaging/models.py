@@ -1,19 +1,6 @@
 from django.db import models
 
 
-class CCRecipient(models.Model):
-    email = models.EmailField()
-
-    def __str__(self):
-        return self.email
-
-
-    class Meta:
-        verbose_name = "CC Recipient"
-        verbose_name_plural = "CC Recipients"
-        ordering = ['email']
-
-
 class Email(models.Model):
     STATUS_CHOICES = [
         ('pending', 'Pending'),
@@ -25,7 +12,7 @@ class Email(models.Model):
     body = models.TextField(blank=True)
     sender = models.EmailField()
     recipient = models.EmailField()
-    cc = models.ManyToManyField(CCRecipient, blank=True)
+    cc = models.JSONField(default=list)
     attach = models.FileField(upload_to='attachments/', blank=True, null=True)
     created_at = models.DateField(auto_now_add=True)
     sent_at = models.DateField(null=True, blank=True)
