@@ -8,6 +8,10 @@ class EmailSerializer(serializers.ModelSerializer):
         child=serializers.EmailField(),
         allow_empty=True
     )
+    attach = serializers.FileField(
+        required=False,
+        allow_null=True
+    )
     class Meta:
         model = Email
         fields = ('subject', 'body', 'sender', 'recipient', 'cc', 'attach',

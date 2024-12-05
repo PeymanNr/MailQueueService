@@ -7,5 +7,5 @@ from messaging.models import Email
 # Register your models here.
 @register(Email)
 class EmailAdmin(admin.ModelAdmin):
-    list_display = ('subject', 'body', 'sender', 'recipient', 'attach',
-                  'sent_at')
+    list_display = ('subject', 'body', 'sender', 'recipient', 'status',
+                  'sent_at', 'error_message')
