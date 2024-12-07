@@ -1,0 +1,56 @@
+version: '3.10'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: django_app
+    command: >
+      sh -c "python manage.py makemigrations &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "8000:8000"
+
+    volumes:
+      - .:/src
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - rabbitmq
+
+  db:
+    image: postgres:14
+    container_name: postgres_db
+    ports:
+      - "5431:5432"
+    env_file:
+      - .env
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    env_file:
+      - .env
+    ports:
+      - "5673:5672"
+
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: celery_worker
+    command: >
+      sh -c "celery -A config worker --loglevel=info"
+
+    depends_on:
+      - rabbitmq
+      - db
+    env_file:
+      - .env
+
+volumes:
+  postgres_data:
+    driver: local
